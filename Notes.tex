@@ -2,6 +2,7 @@
 \usepackage{NotesTeXV3} %/Path/to/package should be replaced with package location
 \usepackage{lipsum}
 \usepackage{ctex}
+\usepackage{minted}
 \renewcommand{\CJKfamilydefault}{\CJKsfdefault}
 \renewcommand{\contentsname}{Contents}
 \title{{\Huge Paper Reading Notes}\\{\Large{Jerry}}}
@@ -64,9 +65,67 @@
   \end{quotation}
 
   \begin{remark}\textbf{翻译：}
-    \textit{缓存侧信道攻击\mn{利用Cache信息获取信息，见\href{https://blog.csdn.net/qq_41691212/article/details/133847749}{常见的侧信道攻击方法}}基于推测执行非常强大且难以缓解。现有的硬件防御方案通常需要额外的硬件数据结构、数据移动操作和/或复杂的逻辑计算，导致处理器性能和硬件资源的过度开销。为此，本文提出了SpecLFB，它利用微架构组件，即行填充缓冲区（Line-Fill-Buffer），并集成了用于加载安全检查的提出机制，以防止在推测执行中建立缓存侧信道。为确保加载安全检查的正确性和即时性，为SpecLFB设计了一种称为ROB不安全掩码的结构，用于跟踪指令状态。为了进一步减少处理器性能开销，SpecLFB缩小了不安全推测加载的保护范围，并尽可能早地确定它们可以解除保护的时间。SpecLFB已在开源RISC-V核心Sonic-BOOM以及Gem5中实现。对于增强的SonicBOOM，生成了其寄存器传输级（RTL）代码，并开发了一个烧录了核心并运行基于Linux内核操作系统的FPGA硬件原型。基于通过RTL模拟、FPGA原型实验和Gem5模拟在安全保证、性能开销和硬件资源开销方面的评估，它表明SpecLFB有效地防御了攻击。在FPGA原型实验和Gem5模拟中，它导致硬件资源开销仅为0.6\%，性能开销分别为1.85\%和3.20\%。} 
+    \texttt{缓存侧信道攻击\mn{利用Cache数据推测信息，见\href{https://blog.csdn.net/qq_41691212/article/details/133847749}{常见的侧信道攻击方法}，也可参考如下文章\cite{184415}}基于推测执行非常强大且难以缓解。现有的硬件防御方案通常需要额外的硬件数据结构、数据移动操作和/或复杂的逻辑计算，导致处理器性能和硬件资源的过度开销。为此，本文提出了\href{https://gitee.com/chip-security/SpecLFB}{SpecLFB}，它利用微架构组件，即行填充缓冲区（Line-Fill-Buffer），并集成了用于加载安全检查的提出机制，以防止在推测执行中建立缓存侧信道。为确保加载安全检查的正确性和即时性，为SpecLFB设计了一种称为ROB不安全掩码的结构，用于跟踪指令状态。为了进一步减少处理器性能开销，SpecLFB缩小了不安全推测加载的保护范围，并尽可能早地确定它们可以解除保护的时间。SpecLFB已在开源RISC-V核心Sonic-BOOM以及Gem5中实现。对于增强的SonicBOOM，生成了其寄存器传输级（RTL）代码，并开发了一个烧录了核心并运行基于Linux内核操作系统的FPGA硬件原型。基于通过RTL模拟、FPGA原型实验和Gem5模拟在安全保证、性能开销和硬件资源开销方面的评估，它表明SpecLFB有效地防御了攻击。在FPGA原型实验和Gem5模拟中，它导致硬件资源开销仅为0.6\%，性能开销分别为1.85\%和3.20\%。} 
     \end{remark}
     
+
+    \subsubsection{复现}
+    \begin{minted}[frame=lines, linenos, fontsize=\small, bgcolor=gray!10]{bash}
+        $ pwd
+        /home/user
+        $ ls
+        file1.txt  file2.txt  script.sh
+        \end{minted}
+    \subsubsection{分析}
+    
+    根据摘要，作如下分析与预测：
+    \begin{enumerate}
+        \item 本文目标是为了解决缓存测信道攻击的问题。
+        \item 本文的方法利用了LFB技术。 
+        \item 设计了一种称为ROB不安全掩码的结构，用于跟踪指令状态。
+        \item 在Sonic-BOOM核中进行了实现，结果是实现了FPGA硬件并启动了Linux。
+        \item 做了数据评估。
+    \end{enumerate}
+
+    \newpage
+    
+    \subsection{FLUSH+RELOAD: a High Resolution, Low Noise, L3 Cache Side-Channel Attack\cite{184415}}\label{sec14-paper-yarom}
+    
+
+    \begin{quotation}
+        \textit{\mn{Notes:选择这篇文章是因为\ref{usenixsecurity24-cheng-xiaoyu}中介绍了有关缓存侧信道攻击的问题背景，因此找到这篇文章作为入门的该问题的文献。}Sharing memory pages between non-trusting processes
+        is a common method of reducing the memory footprint
+        of multi-tenanted systems. In this paper we demonstrate
+        that, due to a weakness in the Intel X86 processors,
+        page sharing exposes processes to information leaks. We
+        present FLUSH+RELOAD, a cache side-channel attack
+        technique that exploits this weakness to monitor access
+        to memory lines in shared pages. Unlike previous cache
+        side-channel attacks, FLUSH+RELOAD targets the Last-
+        Level Cache (i.e. L3 on processors with three cache levels).
+        Consequently, the attack program and the victim do
+        not need to share the execution core.}
+
+        \textit{We demonstrate the efficacy of the FLUSH+RELOAD
+        attack by using it to extract the private encryption keys
+        from a victim program running GnuPG 1.4.13. We tested
+        the attack both between two unrelated processes in a single
+        operating system and between processes running in
+        separate virtual machines. On average, the attack is able
+        to recover 96.7\% of the bits of the secret key by observing
+        a single signature or decryption round.}
+    \end{quotation}
+
+    \begin{remark}\textbf{翻译：}
+        \texttt{在非信任进程之间共享内存页面是减少多租户系统内存占用的一种常见方法。在本文中，我们演示了由于英特尔X86处理器的一个弱点，页面共享会使进程面临信息泄露的风险。我们提出了FLUSH+RELOAD，这是一种利用该弱点的缓存侧信道攻击技术，用于监控共享页面中内存行的访问。与之前的缓存侧信道攻击不同，FLUSH+RELOAD针对的是最后一级缓存（即具有三个缓存级别的处理器上的L3）。因此，攻击程序和受害者不需要共享执行核心。}
+
+        \texttt{
+        我们通过使用FLUSH+RELOAD攻击从运行GnuPG 1.4.13的受害者程序中提取私有加密密钥来证明FLUSH+RELOAD攻击的有效性。我们在单个操作系统中的两个无关进程之间以及在不同虚拟机中运行的进程之间测试了该攻击。平均而言，攻击能够通过观察单个签名或解密轮次恢复96.7\%的秘密密钥位。} 
+    \end{remark}
+
+    \subsubsection{复现}
+
+    \subsubsection{解析}
 
   \newpage
 
