@@ -2,6 +2,7 @@
 \usepackage{NotesTeXV3} %/Path/to/package should be replaced with package location
 \usepackage{lipsum}
 \usepackage{ctex}
+\renewcommand{\CJKfamilydefault}{\CJKsfdefault}
 \renewcommand{\contentsname}{Contents}
 \title{{\Huge Paper Reading Notes}\\{\Large{Jerry}}}
 \author{Junyi Yang\footnote{\href{https://github.com/Jerryy959}{\textit{Jerryy959}}}}
@@ -30,6 +31,42 @@
 
   \section{计算机体系结构}\label{sec:Architecture}
   \subsection{SpecLFB: Eliminating Cache Side Channels in Speculative Executions\cite{294605}}\label{usenixsecurity24-cheng-xiaoyu}
+
+  \begin{quotation}
+    \textit{Cache side-channel attacks based on speculative executions
+    are powerful and difficult to mitigate. Existing hardware defense
+    schemes often require additional hardware data structures,
+    data movement operations and/or complex logical computations,
+    resulting in excessive overhead of both processor
+    performance and hardware resources. To this end, this paper
+    proposes SpecLFB, which utilizes the microarchitecture component,
+    Line-Fill-Buffer, integrated with a proposed mechanism
+    for load security check to prevent the establishment of
+    cache side channels in speculative executions. To ensure the
+    correctness and immediacy of load security check, a structure
+    called ROB unsafe mask is designed for SpecLFB to track
+    instruction state. To further reduce processor performance
+    overhead, SpecLFB narrows down the protection scope of
+    unsafe speculative loads and determines the time at which
+    they can be deprotected as early as possible. SpecLFB has
+    been implemented in the open-source RISC-V core, Sonic-
+    BOOM, as well as in Gem5. For the enhanced SonicBOOM,
+    its register-transfer-level (RTL) code is generated, and an
+    FPGA hardware prototype burned with the core and running a
+    Linux-kernel-based operating system is developed. Based on
+    the evaluations in terms of security guarantee, performance
+    overhead, and hardware resource overhead through RTL simulation,
+    FPGA prototype experiment, and Gem5 simulation,
+    it shows that SpecLFB effectively defends against attacks. It
+    leads to a hardware resource overhead of only 0.6\% and the
+    performance overhead of only 1.85\% and 3.20\% in the FPGA
+    prototype experiment and Gem5 simulation, respectively.}
+  \end{quotation}
+
+  \begin{remark}\textbf{翻译：}
+    \textit{缓存侧信道攻击\mn{利用Cache信息获取信息，见\href{https://blog.csdn.net/qq_41691212/article/details/133847749}{常见的侧信道攻击方法}}基于推测执行非常强大且难以缓解。现有的硬件防御方案通常需要额外的硬件数据结构、数据移动操作和/或复杂的逻辑计算，导致处理器性能和硬件资源的过度开销。为此，本文提出了SpecLFB，它利用微架构组件，即行填充缓冲区（Line-Fill-Buffer），并集成了用于加载安全检查的提出机制，以防止在推测执行中建立缓存侧信道。为确保加载安全检查的正确性和即时性，为SpecLFB设计了一种称为ROB不安全掩码的结构，用于跟踪指令状态。为了进一步减少处理器性能开销，SpecLFB缩小了不安全推测加载的保护范围，并尽可能早地确定它们可以解除保护的时间。SpecLFB已在开源RISC-V核心Sonic-BOOM以及Gem5中实现。对于增强的SonicBOOM，生成了其寄存器传输级（RTL）代码，并开发了一个烧录了核心并运行基于Linux内核操作系统的FPGA硬件原型。基于通过RTL模拟、FPGA原型实验和Gem5模拟在安全保证、性能开销和硬件资源开销方面的评估，它表明SpecLFB有效地防御了攻击。在FPGA原型实验和Gem5模拟中，它导致硬件资源开销仅为0.6\%，性能开销分别为1.85\%和3.20\%。} 
+    \end{remark}
+    
 
   \newpage
 
